@@ -34,6 +34,6 @@ The built-in display uses `TFT_eSPI`. Capacitive touch is read on GPIO32 with `t
 
 1. Install ESP32 board support in Arduino IDE.
 2. Install `TFT_eSPI` and enable its `Setup25_TTGO_T_Display.h` configuration for the board’s ST7789 display.
-3. Open `Stick_Human.ino`, select `ESP32 Dev Module` and the serial port, then upload. See [LILYGO’s TTGO T-Display guide](https://github.com/Xinyuan-LilyGO/TTGO-T-Display) and [`TFT_eSPI` display configuration](https://github.com/Bodmer/TFT_eSPI/blob/master/User_Setups/Setup25_TTGO_T_Display.h).
+3. Open `Project_1.ino`, select `ESP32 Dev Module` and the serial port, then upload. See [LILYGO’s TTGO T-Display guide](https://github.com/Xinyuan-LilyGO/TTGO-T-Display) and [`TFT_eSPI` display configuration](https://github.com/Bodmer/TFT_eSPI/blob/master/User_Setups/Setup25_TTGO_T_Display.h).
 4. Leave the touch input clear during startup calibration. The sketch averages 50 readings, then uses 75% of the baseline as its touch threshold.
 5. Touch GPIO32 to trigger grinding. Press the onboard button to recalibrate; after collapse, press it to restart.
