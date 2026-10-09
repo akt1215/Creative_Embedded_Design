@@ -4,7 +4,7 @@ Course projects for COMS BC3930: Creative Embedded Systems at Columbia Universit
 
 ## Module 1: Stick Man (Grinding and Burnout)
 
-An interactive generative artwork on the LilyGO TTGO T-Display ESP32 exploring college overwork and burnout culture. Continuous capacitive touch forces the stick figure to sprint ("Grinding") as internal energy drains, transforming the procedural landscape from a vibrant twilight mountain vista into charcoal desaturation ("Burnout") and complete collapse ("Collapsed"). Releasing touch allows slow recovery, while the onboard button triggers an instant reset—critiquing how academia treats burnout with superficial fixes.
+An interactive generative artwork on the LilyGO TTGO T-Display ESP32 exploring college overwork and burnout culture. Continuous capacitive touch forces the stick figure to sprint ("Grinding") as internal energy drains, transforming the procedural landscape from a vibrant twilight mountain vista into charcoal desaturation ("Burnout") and complete collapse ("Collapsed"). Releasing touch allows slow recovery, while the onboard button triggers an instant reset, critiquing how academia treats burnout with superficial fixes.
 
 https://github.com/user-attachments/assets/3be8f6ab-47e6-4042-87f7-cedefee3bc50
 

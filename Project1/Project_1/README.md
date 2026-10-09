@@ -24,16 +24,16 @@ https://github.com/user-attachments/assets/3be8f6ab-47e6-4042-87f7-cedefee3bc50
 
 ## Artistic Vision
 
-This project offers an interactive critique of college "grind culture" and overwork, developed specifically for an installation hanging inside Columbia's Milstein Center library—a space where students routinely pull exhausting all-nighters.
+This project offers an interactive critique of college "grind culture" and overwork, developed specifically for an installation hanging inside Columbia's Milstein Center, where there is a library where students pull exhausting all-nighters.
 
 In competitive academic environments, constant motion is often conflated with meaningful progress. We celebrate late nights and endless cramming while overlooking the physiological and mental toll. This installation makes the audience complicit in that cycle:
 
-- **Touch as External Pressure:** When a viewer touches the capacitive wire, they apply external pressure (deadlines, academic expectations).
+- **Touch as External Pressure:** Holding the wire literally represents applying pressure to the student. When a viewer touches or holds the capacitive wire, they apply external pressure (deadlines, academic expectations) directly onto the student.
 - **The Grinding Response:** Under touch, the stick figure sprints faster and the mountains rush by. To an outside observer, this looks like high productivity.
 - **Hidden Depletion:** Beneath the surface, the student's internal energy (HP) drains rapidly.
-- **Burnout and Decay:** Once energy drops to 30% or below, the student hits Burnout—slowing down to a limp while the vibrant world desaturates into a bleak charcoal gloom.
+- **Burnout and Decay:** Once energy drops to 30% or below, the student hits Burnout, slowing down to a limp while the vibrant world desaturates into a bleak charcoal gloom.
 - **The Ethical Realization:** The only way to keep the student alive is **non-intervention and rest**. The viewer must let go.
-- **The Reset Button:** Pressing the onboard button (GPIO0) resets the figure back to 100% HP. This mimics how university culture treats burnout—patching it over with coffee or a semester break, only to repeat the exact same cycle.
+- **The Reset Button:** Pressing the onboard button (GPIO0) resets the figure back to 100% HP. This mimics how university culture treats burnout, patching it over with coffee or a semester break, only to repeat the exact same cycle.
 
 ---
 
@@ -51,7 +51,7 @@ In competitive academic environments, constant motion is often conflated with me
 ## Key Design Decisions
 
 1. **Procedural Geometry Over Static Bitmaps:** Rather than cycling pre-rendered GIF frames or static images, the visual system is entirely generated in code using vector primitives (`fillTriangle`, `drawCircle`, `drawLine`, `drawFastHLine`). The mountain positions scroll with dynamic sub-pixel offsets tied directly to current running velocity.
-2. **The Sisyphus Mountain Metaphor:** Endless scrolling mountain peaks represent relentless academic milestones. No matter how fast you sprint, the horizon never arrives—one summit only leads to the next peak.
+2. **The Sisyphus Mountain Metaphor:** Endless scrolling mountain peaks represent relentless academic milestones. No matter how fast you sprint, the horizon never arrives: one summit only leads to the next peak.
 3. **Stage-Based Desaturation:** As energy depletes, the entire environment progressively loses its color saturation and brightness. The loss of vitality is not just internal to the character; it bleeds into the perception of the surrounding world.
 4. **Asymmetric Energy Recovery:**
    - Stamina drains at `0.30` HP/frame during normal touch, and accelerates to `1.00` HP/frame if touched during Burnout.
