@@ -41,10 +41,10 @@ In competitive academic environments, constant motion is often conflated with me
 
 | Stage | Trigger Condition | Motion Speed | Sky Color | Mountains & Peaks | Stickman State |
 |---|---|---|---|---|---|
-| **Resting** | Touch released ($\text{HP} > 30\%$) | 2 px/frame (steady pace) | `0x22F5` (Vibrant twilight blue) | Forest green & pine (`0x2408` / `0x1B05`), snow cap (`0xFFFF`) | White, walking steadily |
-| **Grinding** | Touch active ($\text{HP} > 30\%$) | 4 px/frame (sprinting) | `0x324A` (Faded dusty slate) | Desaturated slate-brown (`0x4226` / `0x3184`), pale cap (`0xCE59`) | Warning Yellow, rapid running |
-| **Burnout** | Any ($\text{HP} \le 30\%$) | 1 px/frame (slow limp) | `0x18C3` (Charcoal gloom) | Dark charcoal (`0x2104` / `0x18C2`), dim cap (`0x8410`) | Strained Orange, limping |
-| **Collapsed** | Energy depleted ($\text{HP} \le 0\%$) | 0 px/frame (stopped) | `0x0000` (Pitch black void) | Faint shadow silhouettes (`0x1082` / `0x0841`), dim cap (`0x2104`) | Red, collapsed flatline on ground |
+| **Resting** | Touch released (HP > 30%) | 2 px/frame (steady pace) | `0x22F5` (Vibrant twilight blue) | Forest green & pine (`0x2408` / `0x1B05`), snow cap (`0xFFFF`) | White, walking steadily |
+| **Grinding** | Touch active (HP > 30%) | 4 px/frame (sprinting) | `0x324A` (Faded dusty slate) | Desaturated slate-brown (`0x4226` / `0x3184`), pale cap (`0xCE59`) | Warning Yellow, rapid running |
+| **Burnout** | Stamina low (HP ≤ 30%) | 1 px/frame (slow limp) | `0x18C3` (Charcoal gloom) | Dark charcoal (`0x2104` / `0x18C2`), dim cap (`0x8410`) | Strained Orange, limping |
+| **Collapsed** | Energy depleted (HP ≤ 0%) | 0 px/frame (stopped) | `0x0000` (Pitch black void) | Faint shadow silhouettes (`0x1082` / `0x0841`), dim cap (`0x2104`) | Red, collapsed flatline on ground |
 
 ---
 
@@ -68,7 +68,7 @@ In competitive academic environments, constant motion is often conflated with me
 
 ### 2. State Persistence vs. Instantaneous Inputs
 - **Issue:** Initially, releasing touch immediately flipped the state back to walking, meaning a figure with 5% HP would walk happily as if fully recovered.
-- **Solution:** Energy was decoupled from instantaneous touch input. The `Burnout` state persists whenever $\text{HP} \le 30\%$, forcing the character to limp in the dark while slowly regenerating stamina until reaching healthy thresholds.
+- **Solution:** Energy was decoupled from instantaneous touch input. The `Burnout` state persists whenever HP ≤ 30%, forcing the character to limp in the dark while slowly regenerating stamina until reaching healthy thresholds.
 
 ### 3. Display Refresh & Ghosting on ST7789
 - **Issue:** On the 240×135 display, longer text strings like `"Burnout"` left residual ghost characters when replaced by shorter strings like `"Resting"` or `"Collapsed"`. Furthermore, large fonts caused the `%` sign to clip off the right edge.
