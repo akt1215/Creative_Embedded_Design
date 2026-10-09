@@ -7,16 +7,19 @@ Target hardware: **LilyGO TTGO T-Display ESP32** (ST7789 240×135 IPS display, c
 
 ## Visual Documentation
 
-### Animated Interaction Demo
-![Stick Man Demo GIF](../media/stickman_demo.gif)
+### Full Video Demonstration
+https://github.com/akt1215/Creative_Embedded_Design/raw/main/Project1/media/demo_web.mp4
+
+<video src="https://github.com/akt1215/Creative_Embedded_Design/raw/main/Project1/media/demo_web.mp4" controls width="100%"></video>
+
+*Above: Full 60-second live demonstration recorded from the physical TTGO T-Display board.*
 
 ### 4-Stage State Progression
 ![Stick Man 4-Stage State Progression](../media/states_overview.jpg)
 
 *Above: Live hardware capture across the four interaction stages: Resting (top-left), Grinding (top-right), Burnout (bottom-left), and Collapsed (bottom-right).*
 
-- Full Video Demonstration: [Download / Play H.264 Demo Video (4 MB MP4)](../media/demo_web.mp4)
-- Companion Blog Post: [Read the Full Design Blog Post](../BLOG.md)
+- Companion Blog Post: [Read the Design Blog Post on Website](https://akitoyamauchi.com/courses/creative-embedded-systems/module-1)
 
 ---
 
