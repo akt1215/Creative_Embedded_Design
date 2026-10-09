@@ -6,7 +6,7 @@ Course projects for COMS BC3930: Creative Embedded Systems at Columbia Universit
 
 An interactive generative artwork on the ESP32 TTGO T-Display examining college overwork and burnout culture. Continuous touch on the capacitive sensor forces the stick figure to sprint ("Grinding") as its stamina drains, driving the landscape from vibrant color into charcoal desaturation ("Burnout") and complete collapse ("Collapsed").
 
-https://github.com/akt1215/Creative_Embedded_Design/raw/main/Project1/media/demo_web.mp4
+https://github.com/user-attachments/assets/3be8f6ab-47e6-4042-87f7-cedefee3bc50
 
 <video src="https://github.com/akt1215/Creative_Embedded_Design/raw/main/Project1/media/demo_web.mp4" controls width="100%"></video>
 
