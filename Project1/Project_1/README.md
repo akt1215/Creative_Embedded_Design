@@ -11,7 +11,7 @@ Target hardware: **LilyGO TTGO T-Display ESP32** (ST7789 240×135 IPS display, c
 
 https://github.com/user-attachments/assets/3be8f6ab-47e6-4042-87f7-cedefee3bc50
 
-*Above: Full 60-second live demonstration recorded from the physical TTGO T-Display board.*
+*Above: Live hardware demonstration on the LilyGO TTGO T-Display ESP32 illustrating capacitive touch interaction, sprinting cadence, stamina depletion, procedural environmental desaturation, collapse, and GPIO0 revival.*
 
 ### 4-Stage State Progression
 ![Stick Man 4-Stage State Progression](../media/states_overview.jpg)
