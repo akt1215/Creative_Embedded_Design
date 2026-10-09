@@ -10,8 +10,7 @@ String currentState = "Resting";
 const int groundY = 105;
 
 void calibration() {
-  // calibrate the capacitive sensor in case I touch the sensor during the boot
-  // helped by gemini
+  // Calibrate the capacitive sensor in case pin is touched during boot
   tft.fillScreen(TFT_BLACK);
   tft.setTextDatum(MC_DATUM);
   tft.setTextColor(TFT_YELLOW, TFT_BLACK);
@@ -87,13 +86,13 @@ void loop() {
   if (currentState != "Collapsed") {
     if (touchVal <= touchThresh) {
       if (currentState == "Burnout") {
-        energy -= 0.45;
+        energy -= 1.00;
       } else {
         energy -= 0.30;
       }
     } else {
       if (energy < 100.0 && currentState == "Burnout") {
-        energy += 0.05;
+        energy += 0.03;
       } else if (energy < 100.0) {
         energy += 0.10;
       }
@@ -111,7 +110,7 @@ void loop() {
     }
   }
 
-  // color codes are suggested by gemini
+  // Stage palette: vibrant resting -> desaturated grinding -> charcoal burnout -> void collapsed
   uint16_t skyColor = 0x22F5, m1 = 0x2408, m2 = 0x1B05, cap = TFT_WHITE;
   if (currentState == "Grinding") {
     skyColor = 0x324A; m1 = 0x4226; m2 = 0x3184; cap = 0xCE59;

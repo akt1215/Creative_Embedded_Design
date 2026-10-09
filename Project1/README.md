@@ -8,15 +8,16 @@ Target hardware: **LilyGO TTGO T-Display ESP32** (ST7789 240×135 IPS display, c
 ## Visual Documentation
 
 ### Animated Interaction Demo
-![Stick Man Demo GIF](../media/stickman_demo.gif)
+![Stick Man Demo GIF](media/stickman_demo.gif)
 
 ### 4-Stage State Progression
-![Stick Man 4-Stage State Progression](../media/states_overview.jpg)
+![Stick Man 4-Stage State Progression](media/states_overview.jpg)
 
 *Above: Live hardware capture across the four interaction stages: Resting (top-left), Grinding (top-right), Burnout (bottom-left), and Collapsed (bottom-right).*
 
-- Full Video Demonstration: [Download / Play H.264 Demo Video (4 MB MP4)](../media/demo_web.mp4)
-- Companion Blog Post: [Read the Full Design Blog Post](../BLOG.md)
+- Full Video Demonstration: [Download / Play H.264 Demo Video (4 MB MP4)](media/demo_web.mp4)
+- Companion Blog Post: [Read the Full Design Blog Post](BLOG.md)
+- Arduino Sketch: [`Project_1/Project_1.ino`](Project_1/Project_1.ino)
 
 ---
 
@@ -98,6 +99,6 @@ In competitive academic environments, constant motion is often conflated with me
 2. Install the **ESP32** board package by Espressif (`Tools > Board > Boards Manager`).
 3. Install the **TFT_eSPI** library by Bodmer (`Tools > Manage Libraries`).
 4. In your Arduino libraries folder, configure `TFT_eSPI/User_Setup_Select.h` to include `#include <User_Setups/Setup25_TTGO_T_Display.h>`.
-5. Open [`Project_1.ino`](Project_1.ino).
+5. Open [`Project_1/Project_1.ino`](Project_1/Project_1.ino).
 6. Connect the LilyGO TTGO T-Display via USB-C. Select board **ESP32 Dev Module** and the correct serial port.
 7. Upload the sketch. Keep your fingers off GPIO32 during the 1-second startup calibration.
