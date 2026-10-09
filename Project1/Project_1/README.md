@@ -32,7 +32,7 @@ In competitive academic environments, constant motion is often conflated with me
 - **The Grinding Response:** Under touch, the stick figure sprints faster and the mountains rush by. To an outside observer, this looks like high productivity.
 - **Hidden Depletion:** Beneath the surface, the student's internal energy (HP) drains rapidly.
 - **Burnout and Decay:** Once energy drops to 30% or below, the student hits Burnout, slowing down to a limp while the vibrant world desaturates into a bleak charcoal gloom.
-- **The Ethical Realization:** The only way to keep the student alive is **non-intervention and rest**. The viewer must let go.
+- **The Ethical Realization:** The underlying realization is that **we need intentional non-intervention and rest**. The viewer must actively choose to stop applying pressure and let the restorative transition take place.
 - **The Reset Button:** Pressing the onboard button (GPIO0) resets the figure back to 100% HP. This mimics how university culture treats burnout, patching it over with coffee or a semester break, only to repeat the exact same cycle.
 
 ---
