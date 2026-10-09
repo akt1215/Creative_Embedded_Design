@@ -8,9 +8,8 @@ Target hardware: **LilyGO TTGO T-Display ESP32** (ST7789 240×135 IPS display, c
 ## Visual Documentation
 
 ### Full Video Demonstration
-https://github.com/akt1215/Creative_Embedded_Design/raw/main/Project1/media/demo_web.mp4
 
-<video src="https://github.com/akt1215/Creative_Embedded_Design/raw/main/Project1/media/demo_web.mp4" controls width="100%"></video>
+https://github.com/user-attachments/assets/3be8f6ab-47e6-4042-87f7-cedefee3bc50
 
 *Above: Full 60-second live demonstration recorded from the physical TTGO T-Display board.*
 
