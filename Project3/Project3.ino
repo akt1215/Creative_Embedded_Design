@@ -1,7 +1,7 @@
 /*
   Cooperative Button / Rhythm Game for ESP32 LILYGO T-Display
-  All players on the same TEAM_ID work together to reach TARGET_SCORE.
-  Any player's press updates the shared team score over ESP-NOW.
+  Players collaborate on a shared score over ESP-NOW.
+  The round concludes automatically once the final beat timing has passed.
 */
 
 #include <WiFi.h>
@@ -12,7 +12,6 @@
 #define TEAM_ID       3      // Must match for all teammates
 #define PLAYER_ID     1      // Unique per board: 0, 1, or 2
 #define MAX_PLAYERS   3
-#define TARGET_SCORE  1000   // Combined score needed to win
 #define BUTTON_A      0      // Left button
 #define BUTTON_B      35     // Right button (hardware pull-up on board)
 #define HEARTBEAT_MS  250
@@ -39,7 +38,6 @@ uint32_t lastPressTime = 0;
 
 const uint16_t playerColors[MAX_PLAYERS] = {TFT_CYAN, TFT_ORANGE, TFT_GREEN};
 const char* ratingLabels[] = {"MISS (-100)", "BAD (-10)", "GOOD (+20)", "PERFECT! (+200)"};
-const uint16_t ratingColors[] = {TFT_RED, TFT_MAGENTA, TFT_YELLOW, TFT_GREEN};
 
 // Timing Windows (milliseconds)
 const float perfectDelta = 150.0f;
@@ -51,11 +49,11 @@ struct TimeList {
   float timing[10];
 };
 
-// Target beat offsets relative to round start (ms)
+// Target beat offsets relative to round start (in milliseconds)
 TimeList correctTimes[MAX_PLAYERS] = {
-  {4, {1, 3, 4.5, 6}},
-  {4, {1, 3, 4.5, 6}},
-  {4, {1, 3, 4.5, 6}}
+  {4, {1000.0f, 3000.0f, 4500.0f, 6000.0f}},
+  {4, {1000.0f, 3000.0f, 4500.0f, 6000.0f}},
+  {4, {1000.0f, 3000.0f, 4500.0f, 6000.0f}}
 };
 
 // Packet format
@@ -63,11 +61,25 @@ typedef struct {
   uint8_t  teamId;
   uint8_t  playerId;
   uint8_t  isReset;
+  uint8_t  isGameOver;
   int16_t  sharedScore;
   uint8_t  rating;
 } Message;
 
 void drawScreen();
+
+// Find the latest target time across all players' tracks
+float getLatestBeatTime() {
+  float maxTime = 0.0f;
+  for (int p = 0; p < MAX_PLAYERS; p++) {
+    int count = correctTimes[p].arraySize;
+    if (count > 0) {
+      float last = correctTimes[p].timing[count - 1];
+      if (last > maxTime) maxTime = last;
+    }
+  }
+  return maxTime;
+}
 
 void onReceive(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
   if (len != sizeof(Message)) return;
@@ -81,13 +93,13 @@ void onReceive(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
   if (msg.isReset) {
     resetRequested = true;
   } else {
-    // Update local copy of the shared score
     sharedScore  = msg.sharedScore;
     lastRating   = msg.rating;
     lastPlayerId = msg.playerId;
     seen[msg.playerId] = true;
 
-    if (sharedScore >= TARGET_SCORE && !gameOver) {
+    // Sync game-over trigger from teammates
+    if (msg.isGameOver && !gameOver) {
       gameOver = true;
       gameOverAt = millis();
     }
@@ -117,6 +129,7 @@ void sendState(bool reset = false) {
   msg.teamId      = TEAM_ID;
   msg.playerId    = PLAYER_ID;
   msg.isReset     = reset ? 1 : 0;
+  msg.isGameOver  = gameOver ? 1 : 0;
   msg.rating      = (uint8_t)lastRating;
   msg.sharedScore = (int16_t)sharedScore;
   esp_now_send(broadcastAddress, (uint8_t *)&msg, sizeof(msg));
@@ -139,23 +152,22 @@ bool buttonPressed(uint8_t pin, bool &last) {
   return pressed;
 }
 
-float deltaPressRecursive(const float correctTimes[], int arraySize, float pressedTime, int lastIdx) {
+float deltaPressRecursive(const float times[], int arraySize, float pressedTime, int lastIdx) {
   if (lastIdx >= arraySize - 1) {
-    return correctTimes[lastIdx] - pressedTime;
+    return times[lastIdx] - pressedTime;
   }
 
-  float delta1 = correctTimes[lastIdx] - pressedTime;
-  float delta2 = correctTimes[lastIdx + 1] - pressedTime;
+  float delta1 = times[lastIdx] - pressedTime;
+  float delta2 = times[lastIdx + 1] - pressedTime;
 
   if (fabsf(delta1) <= fabsf(delta2)) {
     return delta1;
   } else {
-    return deltaPressRecursive(correctTimes, arraySize, pressedTime, lastIdx + 1);
+    return deltaPressRecursive(times, arraySize, pressedTime, lastIdx + 1);
   }
 }
 
 void drawScreen() {
-  tft.fillScreen(TFT_BLACK);
 }
 
 void setup() {
@@ -176,6 +188,17 @@ void loop() {
   if (resetRequested) {
     resetRequested = false;
     startNewRound();
+  }
+
+  // Check if round elapsed past the final beat + badDelta window
+  if (!gameOver) {
+    float roundDuration = getLatestBeatTime() + badDelta;
+    if (millis() - roundStartTime >= roundDuration) {
+      gameOver = true;
+      gameOverAt = millis();
+      sendState();
+      needsRedraw = true;
+    }
   }
 
   bool a = buttonPressed(BUTTON_A, lastA);
@@ -211,18 +234,13 @@ void loop() {
         deltaScore = 200;
       }
 
-      // Add to shared total
       sharedScore += deltaScore;
       lastPlayerId = PLAYER_ID;
 
-      if (sharedScore >= TARGET_SCORE) {
-        gameOver = true;
-        gameOverAt = millis();
-      }
-
       sendState();
       needsRedraw = true;
-    } else if (millis() - gameOverAt > 2000) {
+    } else if (millis() - gameOverAt > 1500) {
+      // Manual reset on button press after song finishes
       startNewRound();
       sendState(true);
     }
