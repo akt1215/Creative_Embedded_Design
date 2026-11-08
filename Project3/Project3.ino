@@ -156,56 +156,6 @@ float deltaPressRecursive(const float correctTimes[], int arraySize, float press
 
 void drawScreen() {
   tft.fillScreen(TFT_BLACK);
-
-  // 1. Top Header
-  tft.setTextDatum(TL_DATUM);
-  tft.setTextColor(TFT_LIGHTGREY, TFT_BLACK);
-  tft.drawString("TEAM " + String(TEAM_ID) + " CO-OP", 8, 6, 2);
-
-  tft.setTextDatum(TR_DATUM);
-  tft.setTextColor(playerColors[PLAYER_ID], TFT_BLACK);
-  tft.drawString("YOU: P" + String(PLAYER_ID), 232, 6, 2);
-
-  // 2. Large Central Team Score
-  tft.setTextDatum(MC_DATUM);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
-  tft.drawString(String(sharedScore) + " / " + String(TARGET_SCORE), 120, 48, 4);
-
-  // Score Progress Bar
-  int barWidth = 200;
-  int barHeight = 8;
-  int x = 20;
-  int y = 70;
-  int progress = constrain((sharedScore * barWidth) / TARGET_SCORE, 0, barWidth);
-  
-  tft.drawRect(x - 1, y - 1, barWidth + 2, barHeight + 2, TFT_DARKGREY);
-  tft.fillRect(x, y, progress, barHeight, TFT_CYAN);
-  tft.fillRect(x + progress, y, barWidth - progress, barHeight, TFT_BLACK);
-
-  // 3. Last Action Feedback (Who scored what)
-  tft.setTextDatum(MC_DATUM);
-  tft.setTextColor(playerColors[lastPlayerId], TFT_BLACK);
-  String feed = "P" + String(lastPlayerId) + ": ";
-  tft.drawString(feed + ratingLabels[lastRating], 120, 95, 2);
-
-  // 4. Teammate Status Indicator (Bottom)
-  tft.setTextDatum(BC_DATUM);
-  String roster = "";
-  for (int i = 0; i < MAX_PLAYERS; i++) {
-    roster += (i == PLAYER_ID ? "[P" : " P") + String(i);
-    roster += (seen[i] || i == PLAYER_ID ? "*] " : "?] ");
-  }
-  tft.setTextColor(TFT_DARKGREY, TFT_BLACK);
-  tft.drawString(roster, 120, 130, 2);
-
-  // 5. Game Over Banner
-  if (gameOver) {
-    tft.fillRect(0, 35, 240, 65, TFT_NAVY);
-    tft.setTextColor(TFT_YELLOW, TFT_NAVY);
-    tft.setTextDatum(MC_DATUM);
-    tft.drawString("VICTORY!", 120, 55, 4);
-    tft.drawString("Target Reached!", 120, 85, 2);
-  }
 }
 
 void setup() {
@@ -273,7 +223,6 @@ void loop() {
       sendState();
       needsRedraw = true;
     } else if (millis() - gameOverAt > 2000) {
-      // Automatic reset after victory screen
       startNewRound();
       sendState(true);
     }
