@@ -2,43 +2,42 @@
 
 <img width="316" height="222" alt="Adobe Express - gameplay" src="https://github.com/user-attachments/assets/e63626f4-d984-4c75-84bb-0ca0e62f9a06" />
 
-For my interactive device, I made a task tracker using a pushbutton, a potentiometer, and a joystick connected to a ESP-TFT board.
-On the Processing code, the list of tasks to be tracked is created and, based on the serial communication sent from the Arduino processing of the sensors' inputs, the status of each task can be updated to reflect its current state (X - completed, else empty for not yet completed) pressing the push button. To change the active task to be updated, the user controls the potentiometer's knob. Offering customisation to the user, the joystick's x-axis switches between available design themes. The y-axis on the joysticke offers a convenient way to reset all tasks to be uncompleted. 
+From the starter competitive game implemented by the professor, Module 3 had us alter it in pairs to turn it into a collaborative game. Using only the ESP32 (without it being necessary to add any external hardware), we gained experience with the ESP-NOW communication protocol.
 
-The task tracker integrates the convenience of digital trackers, while offering a physicality to the users through the sensors that hopefully further increases the satisfaction of completingn a task!
+Our transition from a multiplayer competitive button masher game to a cooperative game was inspired by Taiko no Tatsujin, a Japanese rhythm video game. The players must hit the bubbles as they pass by the target line to gain points, and will lose points if they have poor timing, in order to increase the shared score between the players. The bubbles are not synchronized between devices; rather each player has to focus on doing their part. The goal is to collectively aim to score the most points and to not diminish your partner's efforts by not losing points.
 
-Using just a breadboard and a laptop (to connect the ESP-TFT), you can connect the circuit elements as presented in the schematic below. The wiring connections are as follow:
-- On the pushbutton:
-  - Connected to 15
-- On the potentiometer: 
-  - Connected to 13
-- On the joystick:
-  - GND to GND
-  - +5V to +3V power rail (this is to help normalize the readings from the potentiometer)
-  - VRX (x-direction of joystick) to 39
-  - VRY (y-direction of joystick) to 32
-  - SW (switch when you press in on joystick) to 33 [ended up not using, but initially connected while designing) 
-![Breadboard schematic](fritzing_img/module2_bb.png)
-![Layout schematic of circuit](fritzing_img/module2_schem.png)
-
-- If prefered, you can also follow the layout above of the circuit. You can choose different pins, just make sure that they are coherent to the type of sensor required (ADC). 
-
-Be sure to upload your Arduino program and run your Processing code, but that the Arduino IDE is not using your board's port (which has to be used by Processing). 
+The only component used is a LilyGO TTGO T-Display ESP32, with the sensor data processed in an Arduino program.
 
 ## Code - Design Choices
-### To change the tracked tasks
-- In **Arduino** code, modify the constant ```NUM_TASKS``` found at the beginning of the program to your desired number of tasks to be tracked: ```const int NUM_TASKS = 3;  // Pre-defined # of tasks```
-- In **Processing** code, modify the constant ```NUM_TASKS``` found at the beginning of the program to your desired number of tasks to be tracked ```int NUM_TASKS = 3;```
+### To change the background img
+- Convert your desired image to a bitmap and size it to your display's dimensions (240 × 135). Make sure to save import as a .h file in your Arduino program;
+- Ensure that both the bg.h file and the Arduino code are under the same directory. 
 
-To actually change what are the tracked tasks, change the following String array in Processing:
-```c++
-String[] taskNames = {"Exercise", "Swift", "Reading"};
+### To change the player/bubbles' colours and score's points/message
+To personalise the bubble's in the game, you have to modify the colour atributed to that player. You can change the labelling for rating by modifying the message and the assigned points in the following array:
+```c
+const uint16_t playerColors[MAX_PLAYERS] = {TFT_CYAN, TFT_ORANGE, TFT_GREEN};
+const char* ratingLabels[] = {"MISS (-100)", "BAD (-10)", "GOOD (+20)", "PERFECT! (+200)"};
 ```
 
-### To change the available themes
-To change the design of the available themes, go to the end of the **Processing** code to find the functions that create the graphics for each (```drawMininimalistUI()``` - theme0, ```drawAestheticDashboard()``` - theme1). 
-In this implementation, the design is created through a combination of mostly ```fill()``` (used to colour), ```rect()``` and ```text()```. You can either modify their parameters or use different methods in these functions to personalise the themes to your liking. 
+### To change timing windows
+If you want to adjust the sensibility to the user's button presses and how it related to scoring, change the following attributes (in milliseconds)
+```c
+const float perfectDelta = 45.0f;
+const float goodDelta    = 120.0f;
+const float badDelta     = 240.0f;
+```
 
-### To change timing parameters
-- ```const unsigned long themeCooldown = 350;```: determine the delay between x-axis movement to change the theme (default: 0.35s);
-- ```const unsigned long resetHoldTime = 500;```: how long user has to hold joystick in y-axis direction to reset the tasks to uncompleted (default: 0.5s)
+### To change amount and timing of bubbles
+The timing that each bubble appears at and how many games (consequently also the game's length) is determined by the following list:
+```c
+TimeList correctTimes[MAX_PLAYERS] = {
+  // Player 0: syncopated tresillo groove + double-tap break
+  {13, {1500.0f, 2400.0f, 3300.0f, 3900.0f, 4500.0f, 5400.0f, 6000.0f, 6300.0f, 7500.0f, 8400.0f, 9300.0f, 9900.0f, 10500.0f}},
+  // Player 1: off-beat call-and-response + double-tap fills
+  {13, {1800.0f, 2700.0f, 3000.0f, 3900.0f, 4800.0f, 5100.0f, 6300.0f, 6900.0f, 7200.0f, 8100.0f, 8700.0f, 9600.0f, 10500.0f}},
+  // Player 2: gallop bursts + cross-rhythm + accelerating finale
+  {16, {1500.0f, 2100.0f, 2450.0f, 2800.0f, 3900.0f, 4250.0f, 5100.0f, 5700.0f, 6300.0f, 7050.0f, 7800.0f, 8550.0f, 9300.0f, 9750.0f, 10125.0f, 10500.0f}}
+};
+```
+In the current implementation, each player receives a unique pattern of bubbles. However, if you want them to be synchronised, simply have their values be the same. 
