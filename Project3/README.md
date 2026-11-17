@@ -6,6 +6,8 @@ From the starter competitive game implemented by the professor, Module 3 had us 
 
 Our transition from a multiplayer competitive button masher game to a cooperative game was inspired by Taiko no Tatsujin, a Japanese rhythm video game. The players must hit the bubbles as they pass by the target line to gain points, and will lose points if they have poor timing, in order to increase the shared score between the players. The bubbles are not synchronized between devices; rather each player has to focus on doing their part. The goal is to collectively aim to score the most points and to not diminish your partner's efforts by not losing points.
 
+<img width="1765" height="530" alt="image" src="https://github.com/user-attachments/assets/0ee7f6cc-308d-4d6a-bf16-ccd2548354c6" />
+
 The only component used is a LilyGO TTGO T-Display ESP32, with the sensor data processed in an Arduino program.
 
 ## Code - Design Choices
